@@ -1,0 +1,394 @@
+/* ---------- Dashboard foundation ---------- */
+
+.dashboard {
+  min-height: 100vh;
+  padding: 40px clamp(20px, 5vw, 64px);
+  background: #f8fafc;
+  color: #172033;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.dashboard-header h1 {
+  margin: 0 0 10px;
+  color: #111827;
+  font-size: clamp(26px, 3vw, 34px);
+  line-height: 1.2;
+  letter-spacing: -0.8px;
+}
+
+.dashboard-header p {
+  margin: 0;
+  color: #64748b;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* ---------- Buttons ---------- */
+
+.dashboard button {
+  min-height: 42px;
+  padding: 11px 18px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: #4f46e5;
+  color: #ffffff;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.dashboard button:hover:not(:disabled) {
+  background: #4338ca;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+}
+
+.dashboard button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.dashboard button:focus-visible,
+.dashboard input:focus-visible,
+.dashboard textarea:focus-visible,
+.dashboard select:focus-visible {
+  outline: 3px solid #c7d2fe;
+  outline-offset: 2px;
+}
+
+.dashboard button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+/* ---------- Project creation form ---------- */
+
+.dashboard .recent-projects {
+  margin-bottom: 28px;
+  padding: clamp(20px, 3vw, 32px);
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.035);
+}
+
+.dashboard .recent-projects h2 {
+  margin: 0 0 24px;
+  color: #172033;
+  font-size: 22px;
+  letter-spacing: -0.4px;
+}
+
+.dashboard .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.dashboard .form-group label {
+  color: #334155;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.dashboard .form-group input,
+.dashboard .form-group textarea,
+.dashboard .form-group select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #172033;
+  font: inherit;
+  font-size: 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dashboard .form-group input::placeholder,
+.dashboard .form-group textarea::placeholder {
+  color: #94a3b8;
+}
+
+.dashboard .form-group input:focus,
+.dashboard .form-group textarea:focus,
+.dashboard .form-group select:focus {
+  border-color: #6366f1;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+}
+
+.dashboard .form-group textarea {
+  min-height: 110px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.dashboard form button[type="submit"] {
+  min-width: 145px;
+}
+
+.dashboard [role="alert"] {
+  margin: 14px 0;
+  padding: 12px 14px;
+  border: 1px solid #fecaca;
+  border-radius: 9px;
+  background: #fef2f2;
+  color: #b91c1c;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.dashboard [role="status"] {
+  margin: 0 0 24px;
+  padding: 13px 16px;
+  border: 1px solid #bbf7d0;
+  border-radius: 10px;
+  background: #f0fdf4;
+  color: #166534;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ---------- Recent projects ---------- */
+
+.dashboard .section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.dashboard .section-header h2 {
+  margin: 0;
+}
+
+.dashboard .project-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.dashboard .project-card {
+  min-width: 0;
+  padding: 23px;
+  border: 1px solid #e2e8f0;
+  border-radius: 13px;
+  background: #ffffff;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.dashboard .project-card:hover {
+  transform: translateY(-3px);
+  border-color: #c7d2fe;
+  box-shadow: 0 12px 26px rgba(15, 23, 42, 0.07);
+}
+
+.dashboard .project-card h3 {
+  margin: 0 0 12px;
+  color: #172033;
+  font-size: 17px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}.dashboard .project-card p {
+  min-height: 42px;
+  margin: 0 0 20px;
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.dashboard .project-card span {
+  display: inline-block;
+  padding: 6px 11px;
+  border: 1px solid #e0e7ff;
+  border-radius: 999px;
+  background: #eef2ff;
+  color: #4338ca;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ---------- Loading and empty states ---------- */
+
+.dashboard .recent-projects > p {
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* ---------- Responsive layouts ---------- */
+
+@media (max-width: 1000px) {
+  .dashboard .project-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .dashboard {
+    padding: 26px 16px;
+  }
+
+  .dashboard-header {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .dashboard-header button {
+    align-self: flex-start;
+  }
+
+  .dashboard .recent-projects {
+    padding: 20px 16px;
+    border-radius: 12px;
+  }
+
+  .dashboard .recent-projects h2 {
+    font-size: 20px;
+  }
+
+  .dashboard .project-list {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  .dashboard .project-card {
+    padding: 19px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dashboard *,
+  .dashboard *::before,
+  .dashboard *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+/* Search and status filters */
+
+.dashboard .project-filters {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(180px, 1fr);
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+.dashboard .project-filters .form-group {
+  margin-bottom: 0;
+}
+
+.dashboard .project-filters input,
+.dashboard .project-filters select {
+  min-height: 44px;
+}
+
+@media (max-width: 640px) {
+  .dashboard .project-filters {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+}
+/* Project statistics cards */
+
+.dashboard .project-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+.dashboard .stat-card {
+  min-width: 0;
+  padding: 24px;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.035);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.dashboard .stat-card:hover {
+  border-color: #c7d2fe;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.06);
+}
+
+.dashboard .stat-card p {
+  margin: 0 0 12px;
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.dashboard .stat-card h2 {
+  margin: 0;
+  color: #172033;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+}
+
+@media (max-width: 900px) {
+  .dashboard .project-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+}
+
+@media (max-width: 420px) {
+  .dashboard .project-stats {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .dashboard .stat-card {
+    padding: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dashboard .stat-card {
+    transition: none;
+  }
+}
+.dashboard-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logout-button {
+  background-color: #dc2626;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.logout-button:hover {
+  background-color: #b91c1c;
+}
