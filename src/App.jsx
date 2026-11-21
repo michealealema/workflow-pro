@@ -1,3 +1,4 @@
+import ProjectDetails from './pages/ProjectDetails'
 import Register from './pages/Register'
 import { Routes, Route, Link } from 'react-router-dom'
 import './App.css'
@@ -9,7 +10,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 import Login from './pages/Login'
 import Profile from './pages/profile'
 import Dashboard from './pages/Dashboard'
-
+import VerifyEmail from './pages/VerifyEmail'
 function Home() {
   const features = [
     {
@@ -114,7 +115,16 @@ function Home() {
 function App() {
   return (
     <Routes>
-      <Route path="/register" element={<Register />} />
+      <Route
+  path="/projects/:projectId"
+  element={
+    <ProtectedRoute>
+      <ProjectDetails />
+    </ProtectedRoute>
+  }
+/>
+     <Route path="/register" element={<Register />} />
+      <Route path="/verify-email" element={<VerifyEmail />} />
       <Route path="/" element={<Home />} />
 
       <Route path="/login" element={<Login />} />

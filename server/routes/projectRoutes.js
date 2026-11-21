@@ -9,18 +9,23 @@ const {
   deleteProject,
 } = require('../controllers/projectController')
 
+const {
+  getProjectMembers,
+  addProjectMember,
+  removeProjectMember,
+} = require('../controllers/projectMemberController')
+
 const router = express.Router()
 
-// Get all projects belonging to the logged-in user.
+// Project CRUD
 router.get('/', authMiddleware, getProjects)
-
-// Create a project.
 router.post('/', authMiddleware, createProject)
-
-// Update a project.
 router.put('/:id', authMiddleware, updateProject)
-
-// Delete a project.
 router.delete('/:id', authMiddleware, deleteProject)
+
+// Project team members
+router.get('/:id/members', authMiddleware, getProjectMembers)
+router.post('/:id/members', authMiddleware, addProjectMember)
+router.delete('/:id/members/:userId', authMiddleware, removeProjectMember)
 
 module.exports = router

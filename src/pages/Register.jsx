@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { apiRequest } from '../services/api'
 
 function Register() {
   const [name, setName] = useState('')
@@ -17,39 +18,25 @@ function Register() {
     setLoading(true)
 
     try {
-      const response = await fetch(
-        'http://localhost:5000/api/auth/register',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            name: name.trim(),
-            email: email.trim(),
-            password,
-          }),
-        }
-      )
-
-      const data = await response.json()
-
-      if (!response.ok) {
-        setMessage(
-          data.message || 'Registration failed. Please try again.'
-        )
-        return
-      }
+      const data = await apiRequest('/auth/register', {
+        method: 'POST',
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim(),
+          password,
+        }),
+      })
 
       navigate('/login', {
         state: {
-          message: 'Account created successfully. Please log in.',
+          message: data.message,
         },
       })
     } catch (error) {
       console.error('Registration error:', error)
+
       setMessage(
-        'Unable to connect to the server. Please try again.'
+        error.message || 'Registration failed. Please try again.'
       )
     } finally {
       setLoading(false)
@@ -71,6 +58,7 @@ function Register() {
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="register-name">Full name</label>
+
             <input
               id="register-name"
               name="name"
@@ -86,6 +74,7 @@ function Register() {
 
           <div className="form-group">
             <label htmlFor="register-email">Email address</label>
+
             <input
               id="register-email"
               name="email"
@@ -138,7 +127,9 @@ function Register() {
             <p className="login-message" role="alert">
               {message}
             </p>
-          )}<button
+          )}
+
+          <button
             className="login-submit"
             type="submit"
             disabled={loading}

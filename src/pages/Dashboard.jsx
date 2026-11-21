@@ -1,3 +1,4 @@
+
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useMemo, useState } from 'react'
 import { apiRequest, logout } from '../services/api'
@@ -7,10 +8,11 @@ function Dashboard() {
   // Get the currently logged-in user.
   const navigate = useNavigate()
 
-function handleLogout() {
-  logout()
-  navigate('/login', { replace: true })
-}
+  function handleLogout() {
+    logout()
+    navigate('/login', { replace: true })
+  }
+
   const user = JSON.parse(sessionStorage.getItem('user') || 'null')
 
   const [projects, setProjects] = useState([])
@@ -209,6 +211,11 @@ function handleLogout() {
     }
   }
 
+  // Open a project's details page.
+  function handleViewProject(projectId) {
+    navigate(`/projects/${projectId}`)
+  }
+
   return (
     <main className="dashboard">
       <header className="dashboard-header">
@@ -218,27 +225,25 @@ function handleLogout() {
         </div>
 
         <div className="dashboard-header-actions">
+          <button
+            type="button"
+            onClick={() => {
+              setShowForm((current) => !current)
+              setFormError('')
+              setSuccessMessage('')
+            }}
+          >
+            {showForm ? 'Cancel' : 'New Project'}
+          </button>
 
-  <button
-    type="button"
-    onClick={() => {
-      setShowForm((current) => !current)
-      setFormError('')
-      setSuccessMessage('')
-    }}
-  >
-    {showForm ? 'Cancel' : 'New Project'}
-  </button>
-
-  <button
-    type="button"
-    onClick={handleLogout}
-    className="logout-button"
-  >
-    Logout
-  </button>
-
-</div>
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="logout-button"
+          >
+            Logout
+          </button>
+        </div>
       </header>
 
       {successMessage && (
@@ -287,6 +292,7 @@ function handleLogout() {
           <form onSubmit={handleCreateProject}>
             <div className="form-group">
               <label htmlFor="project-name">Project name</label>
+
               <input
                 id="project-name"
                 name="name"
@@ -299,6 +305,7 @@ function handleLogout() {
 
             <div className="form-group">
               <label htmlFor="project-description">Description</label>
+
               <textarea
                 id="project-description"
                 name="description"
@@ -312,6 +319,7 @@ function handleLogout() {
 
             <div className="form-group">
               <label htmlFor="project-status">Status</label>
+
               <select
                 id="project-status"
                 name="status"
@@ -345,6 +353,7 @@ function handleLogout() {
         <div className="project-filters">
           <div className="form-group">
             <label htmlFor="project-search">Search projects</label>
+
             <input
               id="project-search"
               type="search"
@@ -356,6 +365,7 @@ function handleLogout() {
 
           <div className="form-group">
             <label htmlFor="status-filter">Filter by status</label>
+
             <select
               id="status-filter"
               value={statusFilter}
@@ -464,6 +474,14 @@ function handleLogout() {
                     <span>{project.status}</span>
 
                     <div className="project-actions">
+                      <button
+                        type="button"
+                        onClick={() => handleViewProject(project.id)}
+                        disabled={deletingProjectId === project.id}
+                      >
+                        View Project
+                      </button>
+
                       <button
                         type="button"
                         onClick={() => startEditing(project)}

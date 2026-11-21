@@ -4,9 +4,12 @@ const express = require('express')
 const cors = require('cors')
 const helmet = require('helmet')
 
+const taskRoutes = require('./routes/taskRoutes')
 const authRoutes = require('./routes/authRoutes')
 const userRoutes = require('./routes/userRoutes')
 const projectRoutes = require('./routes/projectRoutes')
+const notificationRoutes = require('./routes/notificationRoutes')
+
 const errorHandler = require('./middleware/errorHandler')
 
 const app = express()
@@ -43,6 +46,8 @@ app.get('/api/health', (req, res) => {
 app.use('/api/auth', authRoutes)
 app.use('/api', userRoutes)
 app.use('/api/projects', projectRoutes)
+app.use('/api', taskRoutes)
+app.use('/api/notifications', notificationRoutes)
 
 // Handle unknown routes
 app.use((req, res) => {

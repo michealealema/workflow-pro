@@ -24,7 +24,11 @@ function handleControllerError(error, res, next) {
 function validateProjectData(req, res, requireStatus = false) {
   const { name, description, status } = req.body || {}
 
-  if (typeof req.body !== 'object' || Array.isArray(req.body) || req.body === null) {
+  if (
+    typeof req.body !== 'object' ||
+    Array.isArray(req.body) ||
+    req.body === null
+  ) {
     res.status(400).json({
       message: 'Request body must be a valid object.',
     })
@@ -92,13 +96,18 @@ function validateProjectData(req, res, requireStatus = false) {
   }
 }
 
-// Get all projects belonging to the logged-in user
+// Get projects owned by or shared with the logged-in user
 async function getProjects(req, res, next) {
   try {
     const result = await pool.query(
-      `SELECT id, name, description, status, created_at
+      `SELECT id, user_id, name, description, status, created_at
        FROM projects
        WHERE user_id = $1
+       OR id IN (
+         SELECT project_id
+         FROM project_members
+         WHERE user_id = $1
+       )
        ORDER BY created_at DESC`,
       [req.user.id]
     )

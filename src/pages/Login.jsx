@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { apiRequest } from '../services/api'
 
 function Login() {
   const [email, setEmail] = useState('')
@@ -17,26 +18,13 @@ function Login() {
     setLoading(true)
 
     try {
-      const response = await fetch(
-        'http://localhost:5000/api/auth/login',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: email.trim(),
-            password,
-          }),
-        }
-      )
-
-      const data = await response.json()
-
-      if (!response.ok) {
-        setMessage(data.message || 'Login failed. Please try again.')
-        return
-      }
+      const data = await apiRequest('/auth/login', {
+        method: 'POST',
+        body: JSON.stringify({
+          email: email.trim(),
+          password,
+        }),
+      })
 
       // Clear any previous user's session information.
       sessionStorage.removeItem('token')
@@ -49,7 +37,10 @@ function Login() {
       navigate('/dashboard')
     } catch (error) {
       console.error('Login error:', error)
-      setMessage('Unable to connect to the server. Please try again.')
+
+      setMessage(
+        error.message || 'Login failed. Please try again.'
+      )
     } finally {
       setLoading(false)
     }
@@ -137,7 +128,9 @@ function Login() {
 
         <p className="login-footer">
           Don't have an account? <Link to="/register">Create one</Link>
-        </p><p className="login-footer">
+        </p>
+
+        <p className="login-footer">
           <Link to="/">← Back to homepage</Link>
         </p>
       </section>
