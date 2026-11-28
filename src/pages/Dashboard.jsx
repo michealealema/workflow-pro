@@ -1,8 +1,9 @@
-
+import Notifications from '../components/Notifications'
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useMemo, useState } from 'react'
 import { apiRequest, logout } from '../services/api'
 import './Dashboard.css'
+
 
 function Dashboard() {
   // Get the currently logged-in user.
@@ -225,25 +226,27 @@ function Dashboard() {
         </div>
 
         <div className="dashboard-header-actions">
-          <button
-            type="button"
-            onClick={() => {
-              setShowForm((current) => !current)
-              setFormError('')
-              setSuccessMessage('')
-            }}
-          >
-            {showForm ? 'Cancel' : 'New Project'}
-          </button>
+  <Notifications />
 
-          <button
-            type="button"
-            onClick={handleLogout}
-            className="logout-button"
-          >
-            Logout
-          </button>
-        </div>
+  <button
+    type="button"
+    onClick={() => {
+      setShowForm((current) => !current)
+      setFormError('')
+      setSuccessMessage('')
+    }}
+  >
+    {showForm ? 'Cancel' : 'New Project'}
+  </button>
+
+  <button
+    type="button"
+    onClick={handleLogout}
+    className="logout-button"
+  >
+    Logout
+  </button>
+</div>
       </header>
 
       {successMessage && (

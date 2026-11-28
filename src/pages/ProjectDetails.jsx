@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { apiRequest } from '../services/api'
 import './ProjectDetails.css'
@@ -65,12 +65,8 @@ function ProjectDetails() {
     currentUser &&
     String(project.user_id) === String(currentUser.id)
 
-  useEffect(() => {
-    loadProjectDetails()
-  }, [projectId])
-
   // Load project information, tasks, and team members.
-  async function loadProjectDetails() {
+  const loadProjectDetails = useCallback(async () => {
     try {
       setLoading(true)
       setError('')
@@ -117,7 +113,70 @@ function ProjectDetails() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [projectId])
+
+  // Initial project loading.
+  useEffect(() => {
+    let isMounted = true
+
+    async function initialLoad() {
+      try {
+        const [
+          projectData,
+          taskData,
+          memberData,
+        ] = await Promise.all([
+          apiRequest('/projects'),
+          apiRequest(`/projects/${projectId}/tasks`),
+          apiRequest(`/projects/${projectId}/members`),
+        ])
+
+        if (!isMounted) return
+
+        const projectList = Array.isArray(projectData)
+          ? projectData
+          : projectData.projects || projectData.project || []
+
+        const foundProject = projectList.find(
+          (item) => String(item.id) === String(projectId)
+        )
+
+        if (!foundProject) {
+          throw new Error('Project not found.')
+        }
+
+        const taskList = Array.isArray(taskData)
+          ? taskData
+          : taskData.tasks || taskData.task || []
+
+        const memberList = Array.isArray(memberData)
+          ? memberData
+          : memberData.members || []
+
+        setProject(foundProject)
+        setTasks(Array.isArray(taskList) ? taskList : [])
+        setMembers(Array.isArray(memberList) ? memberList : [])
+
+        // Reset comments when loading a different project.
+        setComments({})
+        setCommentsOpen({})
+      } catch (err) {
+        if (isMounted) {
+          setError(err.message || 'Failed to load project.')
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false)
+        }
+      }
+    }
+
+    initialLoad()
+
+    return () => {
+      isMounted = false
+    }
+  }, [projectId])
 
   // Load comments belonging to a task.
   async function loadTaskComments(taskId) {
@@ -509,10 +568,6 @@ function ProjectDetails() {
 
   const inProgressCount = tasks.filter(
     (task) => task.status === 'In Progress'
-  ).length
-
-  const inReviewCount = tasks.filter(
-    (task) => task.status === 'In Review'
   ).length
 
   if (loading) {

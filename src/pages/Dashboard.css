@@ -392,3 +392,157 @@
 .logout-button:hover {
   background-color: #b91c1c;
 }
+/* ---------- Notifications ---------- */
+
+.notification-container {
+  position: relative;
+}
+
+.dashboard .notification-bell {
+  position: relative;
+  min-width: 46px;
+  padding: 10px;
+  background: #ffffff;
+  color: #4f46e5;
+  border: 1px solid #e2e8f0;
+  font-size: 20px;
+}
+
+.dashboard .notification-bell:hover {
+  background: #eef2ff;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  min-width: 20px;
+  height: 20px;
+  padding: 2px 5px;
+  border-radius: 999px;
+  background: #dc2626;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notification-dropdown {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  z-index: 100;
+  width: min(380px, calc(100vw - 32px));
+  max-height: 450px;
+  overflow-y: auto;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  box-shadow: 0 12px 35px rgba(15, 23, 42, 0.15);
+}
+
+.notification-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.notification-header h2 {
+  margin: 0;
+  font-size: 17px;
+}
+
+.dashboard .mark-all-button,
+.dashboard .mark-read-button {
+  min-height: auto;
+  padding: 6px 9px;
+  background: transparent;
+  color: #4f46e5;
+  font-size: 12px;
+}
+
+.dashboard .mark-all-button:hover,
+.dashboard .mark-read-button:hover {
+  background: #eef2ff;
+  box-shadow: none;
+}
+
+.notification-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 15px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.notification-item.unread {
+  background: #eef2ff;
+}
+
+.notification-content {
+  min-width: 0;
+}
+
+.notification-content p {
+  margin: 0 0 7px;
+  color: #172033;
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.notification-content small {
+  color: #64748b;
+  font-size: 11px;
+}
+
+.notification-empty,
+.notification-error {
+  padding: 18px;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.notification-empty {
+  color: #64748b;
+}
+
+.notification-error {
+  color: #b91c1c;
+}
+
+@media (max-width: 640px) {
+  .dashboard-header-actions {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .dashboard-header-actions > * {
+    min-width: 0;
+  }
+
+  .notification-dropdown {
+    position: fixed;
+    top: 90px;
+    right: 16px;
+    left: 16px;
+    width: auto;
+    max-height: min(450px, calc(100vh - 110px));
+  }
+
+  .notification-header {
+    flex-wrap: wrap;
+  }
+
+  .notification-item {
+    flex-wrap: wrap;
+  }
+}
